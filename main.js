@@ -105,7 +105,7 @@ var ss = new SimShim(
 ss.start();
 
 var dt = 1/700,
-    dim = 3,
+    dim = 4,
     cb = setupHypercubeCallback(dt, dim, ss),
     hypercube = Elm.worker(Elm.Hypercube, { requestDimension:[0, 0] })
     ;
