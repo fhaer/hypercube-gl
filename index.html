@@ -9,21 +9,37 @@
         height: 100%;
       }
       body {
-        font-family: monospace;
-        background-color: #222;
+        background-color: rgb(243,243,243);
         padding: 0;
         margin: 7vh 7vw 14vh 7vw;
         width: 86vw;
         height: 79vh;
       }
-      #plot { width: 100%; height: 100%; }
-      .warn { color: yellow; }
-      label { color: white; font-size: 20px; }
+      #plot { width: 100%; height:100%; }
+      .button { padding: 10px; }
     </style>
   </head>
   <body>
+    <p>
+      Interaktives Modell eines Tesseracts in WebGL <small>(hbar.ca, Fork <a href="https://github.com/fhaer/hypercube-gl">github.com/fhaer/hypercube-gl</a>)</small>.
+    </p>
+    <div id="inputs">
+      <table>
+        <tr>
+          <td><label for="reset-speed-input"><small>Rotationsgeschwindigkeit:</small></label></td>
+          <td><!--<label for="reset-dim-input">Dimensions:</label><br/>--></td>
+          <td rowspan="2"><input class="button" type="button" id="reset" value="Start"/></td>
+          <td rowspan="2"><input class="button" type="button" id="pause" value="Pause"/></td>
+        </tr>
+        <tr>
+          <td><input type="range" name="speed" id="reset-speed-input" min="1" max="100" value="5"></td>
+          <td><input type="hidden" id="reset-dim-input" value="4"/></td>
+        </tr>
+      </table>
+    </div>
     <div id="plot"></div>
-    <script type="text/javascript" src="http://codemaker1999.github.io/sim-shim-js/js/sim-shim-bundle.min.js"></script>
+    <!--<p>WARNING: Attempting to display dimenstions higher than 9 will likely lag or crash your tab.</p>-->
+    <script type="text/javascript" src="sim-shim-bundle.min.js"></script>
     <script type="text/javascript" src="elm-hypercube.js"></script>
     <script type="text/javascript" src="main.js"></script>
   </body>
