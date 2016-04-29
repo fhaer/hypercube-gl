@@ -84,11 +84,11 @@ function setupHypercubeCallback( dt, dim, simShimInst ) {
 }
 
 
-// using a few globals here because I'm lazy, nothing weird should happen, just look the other way
-function reset(dim) {
+function reset(dt, dim) {
   ss.kill();
   hypercube.ports.requestDimension.send( [dt, dim] );
-  ss.setPaused(false);
+  isPaused = false;
+  ss.setPaused(isPaused);
 }
 
 
@@ -104,34 +104,43 @@ var ss = new SimShim(
 );
 ss.start();
 
-var dt = 1/700,
+var dt = 5*0.00025,
     dim = 4,
     cb = setupHypercubeCallback(dt, dim, ss),
     hypercube = Elm.worker(Elm.Hypercube, { requestDimension:[0, 0] })
     ;
+var isPaused = false;
 hypercube.ports.responseDimension.subscribe(cb);
-reset(dim);
+reset(dt, dim);
 
 
 // == Listen == //
 
 
 function resetFromHtml() {
-  var val = document.getElementById("reset-input").value,
-      num = parseInt(val)
+  var dimVal = document.getElementById("reset-dim-input").value,
+      dimNum = parseInt(dimVal)
       ;
-  if (num <= 1) {
-    alert("Please enter a number greater than 1");
+  var speedVal = document.getElementById("reset-speed-input").value,
+      speedNum = parseInt(speedVal)
+      ;
+  if (dimNum <= 1) {
+    alert("Dimensions: Please enter a number greater than 1");
     return;
   }
-  reset(num);
+  if (speedNum < 1 || speedNum > 100) {
+    alert("Speed: Please enter a number in [0-100]");
+    return;
+  }
+  var dtNum = speedNum*0.00025;
+  reset(dtNum, dimNum);
+}
+
+function pauseFromHtml() {
+  isPaused = !isPaused;
+  ss.setPaused(isPaused);
 }
 
 document.getElementById("reset").addEventListener('click', resetFromHtml, false);
 
-document.getElementById("reset-input").addEventListener('keypress', function (e) {
-    var key = e.which || e.keyCode;
-    if (key === 13) { // 13 is enter
-      resetFromHtml();
-    }
-});
+document.getElementById("pause").addEventListener('click', pauseFromHtml, false);
