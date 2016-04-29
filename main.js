@@ -128,10 +128,6 @@ function resetFromHtml() {
     alert("Dimensions: Please enter a number greater than 1");
     return;
   }
-  if (speedNum < 1 || speedNum > 100) {
-    alert("Speed: Please enter a number in [0-100]");
-    return;
-  }
   var dtNum = speedNum*0.00025;
   reset(dtNum, dimNum);
 }
